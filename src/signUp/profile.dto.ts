@@ -4,6 +4,5 @@ export class profileDTO {
     @IsNotEmpty()
     profileid: number;
   
-    @IsNotEmpty()
-    photoPath: string;
+    
 }

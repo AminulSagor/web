@@ -1,10 +1,11 @@
-import { Body, Controller, Param, Post, UploadedFile, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Param, Post, UploadedFile, UseGuards, UseInterceptors, UsePipes, ValidationPipe } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { SellerService } from './seller.service';
 import { SellerDTO } from './seller.dto';
 import { SellerCDTO } from './seller.dto copy';
 import { profileDTO } from './profile.dto';
+import { SessionGuard } from 'src/session.gaurd';
 
 @Controller('seller')
 export class SellerController {
@@ -44,6 +45,7 @@ export class SellerController {
   }
 
   @Post('profilePic')
+  @UseGuards(SessionGuard)
   @UseInterceptors(
     FileInterceptor('shopPhoto', {
       fileFilter: (req, file, cb) => {
@@ -66,8 +68,8 @@ export class SellerController {
     }),
   )
   @UsePipes(new ValidationPipe())
-  async uploadp(@Body() data: profileDTO, @UploadedFile() productPhoto: Express.Multer.File):Promise<any> {
-    return await this.sellerService.uploadp(data, productPhoto);
+  async uploadp(@Body() data: profileDTO, @UploadedFile() shopPhoto: Express.Multer.File):Promise<any> {
+    return await this.sellerService.uploadp(data, shopPhoto);
   }
 
 }

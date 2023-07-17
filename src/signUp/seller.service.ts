@@ -65,9 +65,10 @@ export class SellerService {
     }
   }
   
-  async uploadp(data: profileDTO, productPhoto: Express.Multer.File): Promise<PhotoEntity> {
+  async uploadp(data: profileDTO, shopPhoto: Express.Multer.File): Promise<PhotoEntity> {
     const profile = new PhotoEntity();
-    profile.photoPath = data.photoPath;
+    console.log(shopPhoto.filename);
+    profile.photoPath = shopPhoto.filename;
 
     const seller = await this.sellerRepository.findOne({ where: { id: data.profileid } });
     if (!seller) {
